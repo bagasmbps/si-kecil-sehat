@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('perkembangans', function (Blueprint $table) {
-            $table->text('edukasi')
-                  ->nullable()
-                  ->after('status');
-        });
+        if (!Schema::hasColumn('perkembangans', 'edukasi')) {
+            Schema::table('perkembangans', function (Blueprint $table) {
+                $table->text('edukasi')
+                      ->nullable()
+                      ->after('status');
+            });
+        }
     }
 
     /**
@@ -23,8 +25,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('perkembangans', function (Blueprint $table) {
-            $table->dropColumn('edukasi');
-        });
+        if (Schema::hasColumn('perkembangans', 'edukasi')) {
+            Schema::table('perkembangans', function (Blueprint $table) {
+                $table->dropColumn('edukasi');
+            });
+        }
     }
 };
